@@ -3,7 +3,37 @@
       <!-- Imports Open CTI JavaScript library. Point to a valid Salesforce domain. -->
       <script src="https://test.salesforce.com/support/api/45.0/interaction.js"></script>
       <script type="text/javascript">
-            alert("1");
+            alert("3");
+            
+            /**
+ * @param {string} args.searchParams
+ * @param {object} args.callType (internal or outbound)
+ * @param {object|string} args.queryParams
+ * @param {boolean} args.deferred (false default)
+ * @param {Function} args.callback
+ */
+args = {
+    searchParams: 'Acme',
+    callType: 'inbound',
+    queryParams: 'name=Acme',
+    deferred: false,
+    callback: function(result) {
+        if (result.success) {
+            console.log(result.returnValue);
+            if(result.returnValue.SCREEN_POP_DATA) {
+                sforce.opencti.screenPop(result.returnValue.SCREEN_POP_DATA);
+            }
+        } else {
+            console.log(result.errors);
+        }
+    }
+};
+sforce.opencti.searchAndScreenPop(args)
+            
+            
+            
+            
+            
              // Callback of API method: isInConsole
              var isInConsoleCallback = function (response) {
                   // Returns true if method is executed in Salesforce console, false otherwise.
