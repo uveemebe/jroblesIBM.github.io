@@ -5,8 +5,48 @@
 -->
    <script src="https://caixabankcc--dev001.lightning.force.com/support/api/45.0/lightning/opencti_min.js">
    </script>
-   <script type="text/javascript">				
+
+   <script type="text/javascript">			
       alert('1');
+ 	var callback = function(response) {
+         if (response.success) {
+            console.log('API method call executed successfully! returnValue:', response.returnValue);
+         } else { 
+            console.error('Something went wrong! Errors:', response.errors);
+         }
+      	};
+
+    function screenPop2() {
+         var callback = function(response) {
+         if (response.success) {
+            console.log('API method call executed successfully! returnValue:', response.returnValue);
+         } else { 
+            console.error('Something went wrong! Errors:', response.errors);
+         }
+      	};
+        var args = {
+            apexClass : 'CBK_CTISoftphoneContactSearchController',
+            methodName : 'getContacts',
+            methodParams : 'name=696 696 696' ,
+            callback : function(result) {
+                if (result.success) {
+                    var searchResults = JSON.parse(result.returnValue.runApex);
+                    console.log(searchResults);
+                    console.log(searchResults[0].Id);
+                    sforce.opencti.screenPop({type: sforce.opencti.SCREENPOP_TYPE.SOBJECT , params : { recordId: searchResults[0].Id }, callback: callback  });
+                } else {
+                    throw new Error(
+                            'Unable to perform a search using Open CTI. Contact your admin.');
+                }
+            }
+        };
+        sforce.opencti.runApex(args);
+        
+        }
+</script>   
+    
+    
+   <script type="text/javascript">							
  	var callback = function(response) {
          if (response.success) {
             console.log('API method call executed successfully! returnValue:', response.returnValue);
@@ -59,8 +99,9 @@
       	};
        function searchAndScreenPop() {
                 //Invokes API method
-                sforce.opencti.searchAndScreenPop({ searchParams : 'Acme',queryParams : 'Key1=value1&Key2=value2', callType : sforce.opencti.CALL_TYPE.INBOUND,  deferred: true, callback : callback });
-        }
+               sforce.opencti.searchAndScreenPop({ searchParams : 'Acme', callType : sforce.opencti.CALL_TYPE.INBOUND, deferred: true, callback : callback });
+       		  
+       }
     </script>
 
 
@@ -154,6 +195,7 @@
    <button onclick="searchAndScreenPop();">searchAndScreenPop</button>
    <button onclick="getCallCenterSettings();">getCallCenterSettings()</button>
    <button onclick="screenPop();">screenPop</button>
+       <button onclick="screenPop2();">screenPop</button>
 
 
 
