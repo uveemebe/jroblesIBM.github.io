@@ -1,102 +1,161 @@
 <html>
+<html>
 <head>
-      <!-- Imports Open CTI JavaScript library. Point to a valid Salesforce domain. -->
-      <script src="https://test.salesforce.com/support/api/45.0/interaction.js"></script>
-      <script src="https://test.salesforce.com/support/api/45.0/lightning/opencti_min.js"></script>
-      <script type="text/javascript">
-            alert("4");
-            
-            /**
- * @param {string} args.searchParams
- * @param {object} args.callType (internal or outbound)
- * @param {object|string} args.queryParams
- * @param {boolean} args.deferred (false default)
- * @param {Function} args.callback
- */
-args = {
-    searchParams: 'Acme',
-    callType: 'inbound',
-    queryParams: 'name=Acme',
-    deferred: false,
-    callback: function(result) {
-        if (result.success) {
-            console.log(result.returnValue);
-            if(result.returnValue.SCREEN_POP_DATA) {
-                sforce.opencti.screenPop(result.returnValue.SCREEN_POP_DATA);
-            }
-        } else {
-            console.log(result.errors);
+   <!-- Imports Open CTI JavaScript library. Point to a valid Salesforce domain.
+-->
+   <script src="https://caixabankcc--dev001.lightning.force.com/support/api/45.0/lightning/opencti_min.js">
+   </script>
+   <script type="text/javascript">							
+ 	var callback = function(response) {
+         if (response.success) {
+            console.log('API method call executed successfully! returnValue:', response.returnValue);
+         } else { 
+            console.error('Something went wrong! Errors:', response.errors);
+         }
+      	};
+    
+       	function screenPop() {
+            sforce.opencti.screenPop({type: sforce.opencti.SCREENPOP_TYPE.SEARCH , params: {searchString: 'Acme'}, callback: callback  });
         }
-    }
-};
-sforce.opencti.searchAndScreenPop(args)
-            
-            
-            
-            
-            
-             // Callback of API method: isInConsole
-             var isInConsoleCallback = function (response) {
-                  // Returns true if method is executed in Salesforce console, false otherwise.
-                  if (response.result) {
-                      alert('Softphone is in Salesforce console.');
-                  }
-                  else {
-                      alert('Softphone is not in Salesforce console.');
-                  }
-              };
-              // Invokes API method: isInConsole
-              function isInConsole() {
-                       sforce.interaction.isInConsole(isInConsoleCallback);
-              }
-              // Callback of API method: getCallCenterSettings
-              var getCallCenterSettingsCallback = function (response) {
-                     // Result returns call center settings as a JSON string.
-                     if (response.result) {
-                            alert(response.result);
-                     }
-                     else {
-                            alert('Error retrieving call center settings ' + response.error);
-                     }
-              };
-              // Invokes API method: getCallCenterSettings
-              function getCallCenterSettings() {
-                       sforce.interaction.cti.getCallCenterSettings(getCallCenterSettingsCallback);
-              }
-              // Callback of API method: setSoftphoneHeight
-              var setSoftphoneHeightCallback = function (response) {
-                       // Returns true if SoftPhone height was set successfully, false otherwise.
-                      if (response.result) {
-                          alert('Setting softphone height to 300px was successful.');
-                      }
-                      else {
-                         alert('Setting softphone height failed.');
-                     }
-               };
-               // Invokes setSoftphoneHeight API method.
-               function setSoftphoneHeight() {
-                       sforce.interaction.cti.setSoftphoneHeight(300, setSoftphoneHeightCallback);
-               }
-               // Callback of API method: getPageInfo
-               var getPageInfoCallback = function (response) {
-                      if (response.result) {
-                             alert(response.result);
-                      }
-                      else {
-                             alert('Error occured while trying to get page info: ' + response.error);
-                      }
-               }
-               // Invokes API method getPageInfo
-               function getPageInfo() {
-                       sforce.interaction.getPageInfo(getPageInfoCallback);
-               }
-      </script>
+</script>
+    
+    <script type="text/javascript">
+      var callback = function(response) {
+         if (response.success) {
+            console.log('API method call executed successfully! returnValue:', response.returnValue);
+         } else { 
+            console.error('Something went wrong! Errors:', response.errors);
+         } 
+      };
+
+      function getCallCenterSettings() {
+          sforce.opencti.getCallCenterSettings({callback: callback});
+      }
+     </script>
+    
+    
+    <script type="text/javascript">
+      var callback = function(response) {
+         if (response.success) {
+            console.log('API method call executed successfully! Respuesta:', response.returnValue);
+         } else { 
+            console.error('Something went wrong! Errors:', response.errors);
+         } 
+      };
+
+      function getAppViewInfo() {
+          sforce.opencti.getAppViewInfo({callback: callback});
+      }
+     </script>
+
+   <script type="text/javascript">
+      	 var callback = function(response) {
+         if (response.success) {
+            console.log('API method call executed successfully! returnValue:', response.returnValue);
+         } else { 
+            console.error('Something went wrong! Errors:', response.errors);
+         }
+      	};
+       function searchAndScreenPop() {
+                //Invokes API method
+                sforce.opencti.searchAndScreenPop({ searchParams : 'Acme',queryParams : 'Key1=value1&Key2=value2', callType : sforce.opencti.CALL_TYPE.INBOUND,  deferred: true, callback : callback });
+        }
+    </script>
+
+
+    
+    
+   <script type="text/javascript">
+      // Callback of API method: setSoftphonePanelHeight
+      var setSoftphonePanelHeightCallback = function(response) {
+            // Returns true if setSoftphonePanelHeight method is executed successfully, false otherwise
+            if (response.result) {
+               alert('setSoftphonePanelHeight is successfully executed.');
+            } 
+            else {
+               alert('setSoftphonePanelHeight failed.');
+            }
+      };
+      // Invokes API method: setSoftphonePanelHeight
+      function setSoftphonePanelHeight() {
+                   alert('setSoftphonePanelHeight');
+         sforce.opencti.setSoftphonePanelHeight({
+            heightPX: 500,
+            callback: setSoftphonePanelHeightCallback
+         });
+      }
+   </script>
+   <script type="text/javascript">               
+      // Callback of API method: setSoftphonePanelWidth
+      var setSoftphonePanelWidthCallback = function(response) {
+            // Returns true if setSoftphonePanelWidth method is executed successfully, false otherwise
+            if (response.result) {
+               alert('setSoftphonePanelWidth is successfully executed.');
+            } 
+            else {
+               alert('setSoftphonePanelWidth failed.');
+            }
+      };
+      // Invokes API method: setSoftphonePanelWidth
+      function setSoftphonePanelWidth() {
+         sforce.opencti.setSoftphonePanelWidth({
+            widthPX: 500,
+            callback: setSoftphonePanelHeightCallback
+         });
+      }
+   </script>
+   <script type="text/javascript">               
+      // Callback of API method: setSoftphoneItemIcon
+      var setSoftphoneItemIconCallback = function(response) {
+            // Returns true if setSoftphoneItemIcon method is executed successfully, false otherwise
+            if (response.result) {
+               alert('setSoftphoneItemIcon is successfully executed.');
+            } 
+            else {
+               alert('setSoftphoneItemIcon failed.');
+            }
+      };
+      // Invokes API method: setSoftphoneItemIcon
+      function setSoftphoneItemIcon() {
+         sforce.opencti.setSoftphoneItemIcon({
+            key: 'call',
+            callback: setSoftphoneItemIconCallback
+         });
+      }
+   </script>
+   <script type="text/javascript">                  
+      // Callback of API method: setSoftphoneItemLabel
+      var setSoftphoneItemLabelCallback = function(response) {
+            // Returns true if setSoftphoneItemLabel method is executed successfully, false otherwise
+            if (response.result) {
+               alert('setSoftphoneItemLabel is successfully executed.');
+            } 
+            else {
+               alert('setSoftphoneItemLabel failed.');
+            }
+      };
+      // Invokes API method: setSoftphoneItemLabel
+      function setSoftphoneItemLabel() {
+         sforce.opencti.setSoftphoneItemLabel({
+            Label: 'MySoftphone',
+            callback: setSoftphoneItemLabelCallback
+         });
+      }
+   </script>
 </head>
 <body>
-     
-      <button onclick="isInConsole();">isInConsole</button><br/>
-      <button onclick="getCallCenterSettings();">getCallCenterSettings</button><br/>
-      <button onclick="setSoftphoneHeight();">setSoftphoneHeight(300)</button><br/>
-      <button onclick="getPageInfo();">getPageInfo</button>
+   <button onclick="setSoftphonePanelHeight();">setSoftphonePanelHeight({heightPX:500})</button><br/>
+   <button onclick="setSoftphonePanelWidth();">setSoftphonePanelWidth({widthPX:500})</button><br/>
+   <button onclick="setSoftphoneItemIcon();">setSoftphoneItemIcon({key:'call'})</button><br/>
+   <button onclick="setSoftphoneItemLabel();">setSoftphoneItemLabel({label:'MySoftphone'})</button>
+   <button onclick="test();">test()</button>
+   <button onclick="getAppViewInfo();">getAppViewInfo()</button>
+   <button onclick="searchAndScreenPop();">searchAndScreenPop</button>
+   <button onclick="getCallCenterSettings();">getCallCenterSettings()</button>
+   <button onclick="screenPop();">screenPop</button>
+
+
+
+    
 </body>
 </html>
